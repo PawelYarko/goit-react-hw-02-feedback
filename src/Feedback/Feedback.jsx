@@ -51,6 +51,7 @@ countTotalFeedback = () =>{
 countPositiveFeedbackPercentage = () =>{
     const {bad} = this.state;
     let positivePercentageCount = 100 - (bad / this.countTotalFeedback() * 100);
+    console.log(positivePercentageCount)
     return Math.round(positivePercentageCount);
 }
     
@@ -58,6 +59,7 @@ render(){
     const {good, neutral , bad} = this.state;
     const total = this.countTotalFeedback();
     const positivePercentage = this.countPositiveFeedbackPercentage();
+    console.log(positivePercentage)
     return (
         <div className={s.container}>
             <h1>Please leave feedback</h1>
