@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import s from './Feedback.module.css';
+import Section from './Section/Section'
 import Statistics from './Statistics/Statistics'
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions'
 
 
 
@@ -12,34 +14,22 @@ static defoultState = {
     badStartValue: 0,
 };
 
+static propTypes = {
+    
+};
+
 state = {
     good: this.props.goodStartValue,
     neutral: this.props.neutralStartValue,
     bad: this.props.badStartValue,
 };
 
-onBtnGoodClick = () => {
-    this.setState(pervState => {
-        return {
-            good: pervState.good + 1, 
-        };      
-    })
-}
-
-onBtnNeutralClick = () => {
-    this.setState(pervState => {
-        return {
-            neutral: pervState.neutral + 1, 
-        };      
-    })
-}
-
-onBtnBadClick = () => {
-    this.setState(pervState => {
-        return {
-            bad: pervState.bad + 1, 
-        };      
-    })
+onLeaveFeedback = (e) => {
+    e.preventDefault();
+    const elem = e.target.innerText.toLowerCase();
+    this.setState(pervState => ({
+        [elem]: pervState[elem] + 1,             
+        }))            
 }
 
 countTotalFeedback = () =>{
@@ -51,7 +41,6 @@ countTotalFeedback = () =>{
 countPositiveFeedbackPercentage = () =>{
     const {bad} = this.state;
     let positivePercentageCount = 100 - (bad / this.countTotalFeedback() * 100);
-    console.log(positivePercentageCount)
     return Math.round(positivePercentageCount);
 }
     
@@ -59,22 +48,18 @@ render(){
     const {good, neutral , bad} = this.state;
     const total = this.countTotalFeedback();
     const positivePercentage = this.countPositiveFeedbackPercentage();
-    console.log(positivePercentage)
     return (
         <div className={s.container}>
-            <h1>Please leave feedback</h1>
-            <div>
-                <button className={s.button} onClick={this.onBtnGoodClick}>Good</button>
-                <button className={s.button} onClick={this.onBtnNeutralClick}>Neutral</button>
-                <button className={s.button} onClick={this.onBtnBadClick}>Bad</button>
-            </div>
-            <Statistics 
-                good={good} 
-                neutral={neutral} 
-                bad={bad} 
-                total={total} 
-                positivePercentage={positivePercentage}
-            />
+            <Section title={"Please leave feedback"}>
+                <FeedbackOptions options={['Good', 'Neutral', 'Bad']} onLeaveFeedback={this.onLeaveFeedback}/> 
+                <Statistics 
+                    good={good} 
+                    neutral={neutral} 
+                    bad={bad} 
+                    total={total} 
+                    positivePercentage={positivePercentage}
+                />
+            </Section>
         </div>
         );
     };
