@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import s from './Feedback.module.css';
 import Section from './Section/Section'
 import Statistics from './Statistics/Statistics'
@@ -7,12 +6,6 @@ import FeedbackOptions from './FeedbackOptions/FeedbackOptions'
 
 
 export default class App extends React.Component{ 
-  static propTypes = {
-      good: PropTypes.number.isRequired,
-      neutral: PropTypes.number.isRequired, 
-      bad: PropTypes.number.isRequired, 
-  };
-  
   state = {
       good: 0,
       neutral: 0,
