@@ -1,8 +1,8 @@
 import React from 'react';
-import s from './Feedback.module.css';
-import Section from './Section/Section'
-import Statistics from './Statistics/Statistics'
-import FeedbackOptions from './FeedbackOptions/FeedbackOptions'
+import Section from './Section/Section';
+import Statistics from './Statistics/Statistics';
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
+import s from './App.module.css';
 
 
 export default class App extends React.Component{ 
@@ -21,33 +21,35 @@ export default class App extends React.Component{
   }
   
   countTotalFeedback = () =>{
-      const { good, neutral, bad } = this.state;
-      let total = good + neutral + bad;
-      return total;
+    //   const { good, neutral, bad } = this.state;
+    //   let total = good + neutral + bad;
+    //   return total;
+    return Object.values(this.state).reduce((acc, value) => acc + value, 0);
   }
   
   countPositiveFeedbackPercentage = () =>{
       const {bad} = this.state;
-      let positivePercentageCount = 0;
-      positivePercentageCount = 100 - (bad / this.countTotalFeedback() * 100);
-      return Math.round(positivePercentageCount);
+      let percentageCount = 100 - (bad / this.countTotalFeedback() * 100);
+      return Math.round(percentageCount);
   }
       
   render(){
     const {good, neutral , bad} = this.state;
     const total = this.countTotalFeedback();
     const positivePercentage = this.countPositiveFeedbackPercentage();
+    const options = Object.keys(this.state);
+    const stats = Object.entries(this.state)
+
+    // console.log(options)
     return (
         <div className={s.container}>
             <Section title={"Please leave feedback"}>
                 <FeedbackOptions 
-                options={['Good', 'Neutral', 'Bad']} 
+                options={options} 
                 onLeaveFeedback={this.onLeaveFeedback}
                 /> 
                 <Statistics 
-                  good={good} 
-                  neutral={neutral} 
-                  bad={bad} 
+                  stats={stats}
                   total={total} 
                   positivePercentage={positivePercentage}
                 />
